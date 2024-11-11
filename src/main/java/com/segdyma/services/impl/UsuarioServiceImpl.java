@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.segdyma.services.impl;
 
 import com.segdyma.dao.UsuarioDao;
@@ -23,7 +20,6 @@ public class UsuarioServiceImpl implements UsuarioService {
     public List<Usuario> getUsuarios(boolean activos) {
         var lista = usuarioDao.findAll();
         if (activos) {
-            //Se deben eliminar de la lista los inactivos
             lista.removeIf(c -> !c.isActivo());
         }
         return lista;
@@ -45,5 +41,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional
     public void delete(Usuario usuario) {
         usuarioDao.delete(usuario);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Usuario findByUsername(String username) {
+        return usuarioDao.findByUsername(username);
     }
 }
