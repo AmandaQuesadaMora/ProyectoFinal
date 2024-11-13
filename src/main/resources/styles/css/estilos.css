@@ -1,0 +1,54 @@
+/* Estilos de login */
+.login-title {
+    font-family: Tahoma, sans-serif;
+    font-size: 32px;
+    color: #1b3069;
+    font-weight: bold;
+    text-align: left;
+}
+
+.login-subtitle {
+    font-family: Tahoma, sans-serif;
+    font-size: 20px;
+    color: gray;
+    margin-bottom: 20px;
+}
+
+.form-label {
+    font-family: Tahoma, sans-serif;
+    font-size: 24px;
+    color: #1b3069;
+    font-weight: bold;
+}
+
+.login-button {
+    background-color: #1b3069;
+    border: none;
+    color: white;
+    font-family: Tahoma, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    width: 100%;
+    padding: 10px;
+}
+
+.new-user-text {
+    font-family: Tahoma, sans-serif;
+    font-size: 20px;
+    color: gray;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.register-link {
+    color: #1b3069;
+    font-weight: bold;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.imagen-config {
+    height: 100vh; 
+    width: 100%; 
+    object-fit: cover; 
+}

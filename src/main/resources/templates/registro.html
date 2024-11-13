@@ -2,10 +2,144 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Registro</title>
+    <meta charset="UTF-8"/>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+    <style>
+        body {
+            font-family: Tahoma, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .contenedor-registro {
+            display: flex;
+            width: 85%;
+            max-width: 1000px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            background: white;
+        }
+        .imagen-registro {
+            flex: 1;
+            background-image: url('/images/1.png');
+            background-size: cover;
+            background-position: center;
+        }
+        .formulario-registro {
+            flex: 1;
+            padding: 30px;
+        }
+        .formulario-registro h2 {
+            font-size: 26px;
+            color: #1b3069;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .formulario-registro p.subtitulo {
+            font-size: 18px;
+            color: gray;
+            margin-bottom: 20px;
+        }
+        .formulario-registro label {
+            font-size: 15px;
+            color: #1b3069;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        .formulario-registro input {
+            width: 100%;
+            padding: 12px;
+            font-size: 10px;
+            margin-bottom: 1px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+        .formulario-registro button {
+            width: 100%;
+            padding: 12px;
+            font-size: 20px;
+            color: white;
+            background-color: #1b3069;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        .usuario-existente {
+            font-size: 18px;
+            color: gray;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .usuario-existente a {
+            color: #1b3069;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor-registro">
+        <div class="imagen-registro"></div>
+        <div class="formulario-registro">
+            <h2>Registro de Nuevo Usuario</h2>
+            <p class="subtitulo">¡Bienvenido! Crea tu cuenta</p>
+
+            <form th:action="@{/registro}" method="post" onsubmit="return validarContrasena()">
+                <div>
+                    <label for="username">Usuario:</label>
+                    <input type="text" id="username" name="username" required="required"/>
+                </div>
+                <div>
+                    <label for="password">Contraseña:</label>
+                    <input type="password" id="password" name="password" required="required"/>
+                </div>
+                <div>
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required="required"/>
+                </div>
+                <div>
+                    <label for="apellidos">Apellidos:</label>
+                    <input type="text" id="apellidos" name="apellidos" required="required"/>
+                </div>
+                <div>
+                    <label for="correo">Correo:</label>
+                    <input type="email" id="correo" name="correo"/>
+                </div>
+                <div>
+                    <label for="telefono">Teléfono:</label>
+                    <input type="text" id="telefono" name="telefono"/>
+                </div>
+                <div id="mensaje-error" style="color:red;"></div>
+                <div>
+                    <button type="submit">Registrarse</button>
+                </div>
+            </form>
+
+            <div class="usuario-existente">
+                ¿Ya tienes cuenta? <a th:href="@{/login}">Inicia sesión aquí</a>
+            </div>
+
+            <div th:if="${error}">
+                <p style="color:red" th:text="${error}"></p>
+            </div>
+            <div th:if="${success}">
+                <p style="color:green" th:text="${success}"></p>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <script>
         function validarContrasena() {
             const password = document.getElementById("password").value;
-            const errorElement = document.getElementById("error-message");
+            const errorElement = document.getElementById("mensaje-error");
 
             const tieneMayuscula = /[A-Z]/.test(password);
             const tieneMinuscula = /[a-z]/.test(password);
@@ -21,47 +155,6 @@
             return true;
         }
     </script>
-</head>
-<body>
-    <h2>Registro de Nuevo Usuario</h2>
-    <form th:action="@{/registro}" method="post" onsubmit="return validarContrasena()">
-        <div>
-            <label for="username">Usuario:</label>
-            <input type="text" id="username" name="username" required="required">
-        </div>
-        <div>
-            <label for="password">Contraseña:</label>
-            <input type="password" id="password" name="password" required="required">
-        </div>
-        <div>
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required="required">
-        </div>
-        <div>
-            <label for="apellidos">Apellidos:</label>
-            <input type="text" id="apellidos" name="apellidos" required="required">
-        </div>
-        <div>
-            <label for="correo">Correo:</label>
-            <input type="email" id="correo" name="correo">
-        </div>
-        <div>
-            <label for="telefono">Teléfono:</label>
-            <input type="text" id="telefono" name="telefono">
-        </div>
-        <div id="error-message" style="color:red;"></div>
-        <div>
-            <button type="submit">Registrarse</button>
-        </div>
-              
-           <p>¿Ya tienes cuenta? <a th:href="@{/login}">Loguea aquí</a></p>
-        
-        <div th:if="${error}">
-            <p style="color:red" th:text="${error}"></p>
-        </div>
-        <div th:if="${success}">
-            <p style="color:green" th:text="${success}"></p>
-        </div>
-    </form>
 </body>
 </html>
+
