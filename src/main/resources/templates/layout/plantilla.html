@@ -1,76 +1,76 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="head"> 
-    
-    
-    <title>Segdyma</title>
-    <meta charset="UTF-8"/>
-    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+    <head th:fragment="head"> 
+
+
+        <title>Segdyma</title>
+        <meta charset="UTF-8"/>
+        <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
         <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet"/>
         <script th:src="@{/js/rutinas.js}" type="text/javascript"></script>
         <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
         <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
         <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 
-    <!-- Custom Styles -->
-    <style>
-        /* Default font size and color for nav links and icons */
-        .navbar-nav .nav-link,
-        .fa {
-            font-size: 18px; /* Set font size to 18px */
-            color: white; /* Default color is white */
-        }
+        <!-- Custom Styles -->
+        <style>
+            /* Default font size and color for nav links and icons */
+            .navbar-nav .nav-link,
+            .fa {
+                font-size: 18px; /* Set font size to 18px */
+                color: white; /* Default color is white */
+            }
 
-        /* Hover effect for nav links and icons */
-        .navbar-nav .nav-link:hover,
-        .fa:hover {
-            color: #00FFFF !important; /* Change color to cyan on hover */
-        }
+            /* Hover effect for nav links and icons */
+            .navbar-nav .nav-link:hover,
+            .fa:hover {
+                color: #00FFFF !important; /* Change color to cyan on hover */
+            }
 
-        /* Hover effect for the language dropdown */
-        .dropdown-menu .dropdown-item:hover {
-            background-color: #00FFFF; /* Change background to cyan on hover */
-            color: white !important; /* Make sure the text stays white on hover */
-        }
+            /* Hover effect for the language dropdown */
+            .dropdown-menu .dropdown-item:hover {
+                background-color: #00FFFF; /* Change background to cyan on hover */
+                color: white !important; /* Make sure the text stays white on hover */
+            }
 
-        /* Adjusting the position of the logo to the left but with some space */
-        .navbar .navbar-brand img {
-            height: 65px;
-            margin-right: 10px; /* Adds some space to the right of the logo */
-        }
-    </style>
-</head>
-<body>
-    <!-- First navbar -->
-    <header th:fragment="header" class="header">
-        <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #0c4476;">
-            <div class="container">
-                <!-- Left-aligned menu items (Todos and Categorías) -->
-                <ul class="navbar-nav me-auto">
-                    <!-- Menu icon for "Todos" -->
-                    <!-- Menu icon for "Todos" -->
-                    <li class="nav-item px-2">
-                        <a class="nav-link" th:href="@{/producto/listado}">
-                            <i class="fa fa-bars" style="font-size: 18px; color: white;"></i> [[#{menu.todos}]]
-                        </a>
-                    </li>
-
-
-                    <!-- Categorías link -->
-                    <li class="nav-item px-2">
-                        <a class="nav-link" th:href="@{/categoria/listado}">[[#{plantilla.categorias}]]</a>
-                    </li>
-                </ul>
-
-                <!-- Logo image (centered on the left) -->
-                <a class="navbar-brand" th:href="@{/menu}">
-                    <img src="/images/2.png" alt="Logo"/>
-                </a>
+            /* Adjusting the position of the logo to the left but with some space */
+            .navbar .navbar-brand img {
+                height: 65px;
+                margin-right: 10px; /* Adds some space to the right of the logo */
+            }
+        </style>
+    </head>
+    <body>
+        <!-- First navbar -->
+        <header th:fragment="header" class="header">
+            <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #0c4476;">
+                <div class="container">
+                    <!-- Left-aligned menu items (Todos and Categorías) -->
+                    <ul class="navbar-nav me-auto">
+                        <!-- Menu icon for "Todos" -->
+                        <!-- Menu icon for "Todos" -->
+                        <li class="nav-item px-2">
+                            <a class="nav-link" th:href="@{/producto/listado}">
+                                <i class="fa fa-bars" style="font-size: 18px; color: white;"></i> [[#{menu.todos}]]
+                            </a>
+                        </li>
 
 
-                <!-- Right-aligned icons and language dropdown -->
-                <div class="d-flex ms-auto">
-                    <ul class="navbar-nav">
+                        <!-- Categorías link -->
+                        <li class="nav-item px-2">
+                            <a class="nav-link" th:href="@{/categoria/listado}">[[#{plantilla.categorias}]]</a>
+                        </li>
+                    </ul>
+
+                    <!-- Logo image (centered on the left) -->
+                    <a class="navbar-brand" th:href="@{/menu}">
+                        <img src="/images/2.png" alt="Logo"/>
+                    </a>
+
+
+                    <!-- Right-aligned icons and language dropdown -->
+                    <div class="d-flex ms-auto">
+                        <ul class="navbar-nav">
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle"
                                    data-bs-toggle="dropdown"
@@ -90,26 +90,205 @@
 
 
 
-                    <div class="d-flex ms-auto align-items-center">
-                        <!-- Shopping Cart Icon -->
-                        <a class="nav-link me-3" href="#">
-                            <i class="fa fa-shopping-cart" style="font-size: 24px; color: white;"></i>
-                        </a>
+                        <div class="d-flex ms-auto align-items-center">
+                            <!-- Shopping Cart Icon -->
+                            <a class="nav-link me-3" href="#">
+                                <i class="fa fa-shopping-cart" style="font-size: 24px; color: white;"></i>
+                            </a>
 
-                        <!-- User Icon -->
-                        <a class="nav-link" href="#">
-                            <i class="fa fa-user" style="font-size: 24px; color: white;"></i>
-                        </a>
+                            <!-- User Icon -->
+                            <a class="nav-link" href="#">
+                                <i class="fa fa-user" style="font-size: 24px; color: white;"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
+            </nav>
+        </header>
+
+
+        <section th:fragment ="carrusel">
+
+
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+            <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet"/>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+            <div id="carouselExampleCaptions" class="carousel slide">
+                <div class="carousel-indicators">
+                    <button
+                        type="button"
+                        data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide-to="0"
+                        class=""
+                        aria-label="Slide 1"
+                        ></button>
+                    <button
+                        type="button"
+                        data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide-to="1"
+                        aria-label="Slide 2"
+                        class=""
+                        ></button>
+                    <button
+                        type="button"
+                        data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide-to="2"
+                        aria-label="Slide 3"
+                        class="active"
+                        aria-current="true"
+                        ></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item">
+                        <svg
+                            class="bd-placeholder-img bd-placeholder-img-lg d-block w-100"
+                            width="800"
+                            height="700"
+                            xmlns="http://www.w3.org/2000/svg"
+                            role="img"
+                            aria-label="Placeholder: First slide"
+                            preserveAspectRatio="xMidYMid slice"
+                            focusable="false"
+                            >
+                            <title>Placeholder</title>
+                            <rect width="100%" height="100%" fill="#777"></rect>
+                            <text x="50%" y="40%" fill="#555" dy=".3em">First slide</text>
+                        </svg>
+                        <div class="carousel-caption d-none d-md-block">
+                            <div class="container text-center">
+                                <div class="row justify-content-evenly">
+                                    <!-- Iterar sobre los primeros 3 productos -->
+                                    <div th:each="p, iterStat : ${productosmenu}" 
+                                         th:if="${iterStat.index < 3}" 
+                                         class="card col-auto" style="width: 18rem;">
+                                        <!-- Imagen del producto -->
+                                        <img th:src="@{${p.rutaImagen}}" class="card-img-top" alt="Imagen de producto" />
+
+                                        <div class="card-body">
+                                            <!-- Título del producto -->
+                                            <h5 class="card-title" th:text="${p.descripcion}">Título del producto</h5>
+
+                                            <!-- Descripción del producto -->
+                                            <p class="card-text" th:text="${p.precio}">Descripción del producto</p>
+
+                                            <!-- Enlace dinámico 
+                                            <!--<a th:href="@{${p.url}}" class="btn btn-primary">Ver más</a>
+                                        -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <svg
+                            class="bd-placeholder-img bd-placeholder-img-lg d-block w-100"
+                            width="800"
+                            height="700"
+                            xmlns="http://www.w3.org/2000/svg"
+                            role="img"
+                            aria-label="Placeholder: Second slide"
+                            preserveAspectRatio="xMidYMid slice"
+                            focusable="false"
+                            >
+                            <title>Placeholder</title>
+                            <rect width="100%" height="100%" fill="#666"></rect>
+                            <text x="50%" y="40%" fill="#444" dy=".3em">Second slide</text>
+                        </svg>
+                        <div class="carousel-caption d-none d-md-block">
+                            <div class="container text-center">
+                                <div class="row justify-content-evenly">
+                                    <div th:each="p, iterStat : ${productosmenu}" 
+                                         th:if="${iterStat.index < 3}" 
+                                         class="card col-auto" style="width: 18rem;">
+                                        <!-- Imagen del producto -->
+                                        <img th:src="@{${p.rutaImagen}}" class="card-img-top" alt="Imagen de producto" />
+
+                                        <div class="card-body">
+                                            <!-- Título del producto -->
+                                            <h5 class="card-title" th:text="${p.descripcion}">Título del producto</h5>
+
+                                            <!-- Descripción del producto -->
+                                            <p class="card-text" th:text="${p.precio}">Descripción del producto</p>
+
+                                            <!-- Enlace dinámico 
+                                            <!--<a th:href="@{${p.url}}" class="btn btn-primary">Ver más</a>
+                                        -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item active">
+                        <svg
+                            class="bd-placeholder-img bd-placeholder-img-lg d-block w-100"
+                            width="800"
+                            height="700"
+                            xmlns="http://www.w3.org/2000/svg"
+                            role="img"
+                            aria-label="Placeholder: Third slide"
+                            preserveAspectRatio="xMidYMid slice"
+                            focusable="false"
+                            >
+                            <title>Placeholder</title>
+                            <rect width="100%" height="100%" fill="#555"></rect>
+                            <text x="50%" y="40%" fill="#333" dy=".3em">Third slide</text>
+                        </svg>
+                        <div class="carousel-caption d-none d-md-block">
+                            <div class="container text-center">
+                                <div class="row justify-content-evenly">
+                                    <div th:each="p, iterStat : ${productosmenu}" 
+                                         th:if="${iterStat.index < 3}" 
+                                         class="card col-auto" style="width: 18rem;">
+                                        <!-- Imagen del producto -->
+                                        <img th:src="@{${p.rutaImagen}}" class="card-img-top" alt="Imagen de producto" />
+
+                                        <div class="card-body">
+                                            <!-- Título del producto -->
+                                            <h5 class="card-title" th:text="${p.descripcion}">Título del producto</h5>
+
+                                            <!-- Descripción del producto -->
+                                            <p class="card-text" th:text="${p.precio}">Descripción del producto</p>
+
+                                            <!-- Enlace dinámico 
+                                            <!--<a th:href="@{${p.url}}" class="btn btn-primary">Ver más</a>
+                                        -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button
+                    class="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#carouselExampleCaptions"
+                    data-bs-slide="prev"
+                    >
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button
+                    class="carousel-control-next"
+                    type="button"
+                    data-bs-target="#carouselExampleCaptions"
+                    data-bs-slide="next"
+                    >
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
-        </nav>
-    </header>
 
-    <!-- Footer -->
-    <footer th:fragment="footer" class="p-2 mt-5 bg-info text-white">
-        <p class="lead text-center">&COPY; [[#{plantilla.derechos}]]</p> 
-    </footer>
+        </section>
 
-</body>
+
+        <!-- Footer -->
+        <footer th:fragment="footer" class="p-2 mt-5 bg-info text-white">
+            <p class="lead text-center">&COPY; [[#{plantilla.derechos}]]</p> 
+        </footer>
+
+    </body>
 </html>

@@ -1,7 +1,10 @@
 package com.segdyma.controller;
 
 import com.segdyma.domain.Usuario;
+import com.segdyma.services.CategoriaService;
+import com.segdyma.services.ProductoService;
 import com.segdyma.services.UsuarioService;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +18,12 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+    
+    @Autowired
+    private ProductoService productoService;
+
+    @Autowired
+    private CategoriaService categoriaService;
 
     @GetMapping("/login")
     public String mostrarLogin() {
@@ -38,7 +47,24 @@ public class UsuarioController {
     }
 
     @GetMapping("/menu")
-    public String mostrarMenu() {
+    public String mostrarMenu(Model model) {
+        System.out.println("menu test");
+        // Obtener todos los productos (sin filtros adicionales)
+        var lista = productoService.getProductos(false);
+        System.out.println(lista.size());
+        // Limitar la lista a los primeros 3 productos
+        var productosLimitados = lista.stream()
+                .limit(3) // Limitar a los primeros 3 productos
+                .collect(Collectors.toList());
+        System.out.println("pl" + productosLimitados.size());
+        // Pasar los productos limitados a la vista
+        model.addAttribute("productosmenu", productosLimitados);
+
+        // Aquí puedes seguir pasando otras variables como categorías si las necesitas
+        var categorias = categoriaService.getCategorias(true);
+        model.addAttribute("categorias", categorias);
+
+        // Retornar la vista que corresponde al menu
         return "menu"; // Página del menú principal después de iniciar sesión
     }
     

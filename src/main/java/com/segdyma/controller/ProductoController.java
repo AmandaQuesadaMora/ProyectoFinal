@@ -4,6 +4,7 @@ import com.segdyma.domain.Producto;
 import com.segdyma.services.CategoriaService;
 import com.segdyma.services.ProductoService;
 import com.segdyma.services.impl.FirebaseStorageServiceImpl;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,36 +17,36 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @RequestMapping("/producto")
 public class ProductoController {
-    
+
     @Autowired
     private ProductoService productoService;
-    
+
     @Autowired
     private CategoriaService categoriaService;
-    
+
     @GetMapping("/listado")
-    public String listado(Model model){
-        var lista=productoService.getProductos(false);
+    public String listado(Model model) {
+        var lista = productoService.getProductos(false);
         model.addAttribute("productos", lista);
         model.addAttribute("totalProductos", lista.size());
 
-        var categorias=categoriaService.getCategorias(true);
+        var categorias = categoriaService.getCategorias(true);
         model.addAttribute("categorias", categorias);
 
         return "/producto/listado";
-    }  
-        @Autowired
+    }
+    @Autowired
     private FirebaseStorageServiceImpl firebaseStorageService;
-    
+
     @PostMapping("/guardar")
     public String productoGuardar(Producto producto,
-            @RequestParam("imagenFile") MultipartFile imagenFile) {        
+            @RequestParam("imagenFile") MultipartFile imagenFile) {
         if (!imagenFile.isEmpty()) {
             productoService.save(producto);
             producto.setRutaImagen(
                     firebaseStorageService.cargaImagen(
-                            imagenFile, 
-                            "producto", 
+                            imagenFile,
+                            "producto",
                             producto.getIdProducto()));
         }
         productoService.save(producto);
@@ -62,10 +63,10 @@ public class ProductoController {
     public String productoModificar(Producto producto, Model model) {
         producto = productoService.getProducto(producto);
         model.addAttribute("producto", producto);
-        
-        var categorias=categoriaService.getCategorias(true);
+
+        var categorias = categoriaService.getCategorias(true);
         model.addAttribute("categorias", categorias);
-        
+
         return "/producto/modifica";
     }
 }
