@@ -82,5 +82,4 @@ public class UsuarioController {
         return "registro";
     }
 }
-Esto es develop
 
