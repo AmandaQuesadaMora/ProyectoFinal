@@ -39,29 +39,36 @@ public class CarritoController {
         carritoService.eliminarProducto(idItem);
         return "redirect:/carrito";
     }
-
     @PostMapping("/actualizar")
     public String actualizarCarrito(@RequestParam Map<String, String> cantidades, Model model) {
+        // Imprimir las cantidades recibidas
         System.out.println("Cantidades recibidas: " + cantidades);
 
+        // Convertir las claves de String a Long (sin los prefijos "cantidades_")
         Map<Long, Integer> cantidadesLong = new HashMap<>();
         for (Map.Entry<String, String> entry : cantidades.entrySet()) {
             try {
-                Long idItem = Long.parseLong(entry.getKey());
+                // Extraer el idItem de la clave (que tendrá el formato "cantidades_1", "cantidades_2", etc.)
+                Long idItem = Long.parseLong(entry.getKey().replace("cantidades_", ""));
                 Integer cantidad = Integer.parseInt(entry.getValue());
                 cantidadesLong.put(idItem, cantidad);
-                System.out.println("Actualizando item " + idItem + " con cantidad " + cantidad);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
         }
 
+        // Actualizar el carrito
         carritoService.actualizarCarrito(cantidadesLong);
+
+        // Obtener el carrito actualizado y el total
         var carrito = carritoService.obtenerCarrito();
         model.addAttribute("carrito", carrito);
         model.addAttribute("total", carritoService.calcularTotal());
 
+        // Redirigir al listado de carrito con los valores actualizados
         return "/carrito/listado";
     }
+
+
 
 }

@@ -8,8 +8,7 @@
 <section>
     <div class="container">
         <h1>Carrito de Compras</h1>
-        
-        <!-- Formulario de actualización -->
+
         <form th:action="@{/carrito/actualizar}" method="post">
             <table class="table">
                 <thead>
@@ -21,12 +20,11 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                
                 <tbody>
                     <tr th:each="item : ${carrito}">
                         <td th:text="${item.producto.descripcion}"></td>
                         <td>
-                            <input type="number" th:value="${item.cantidad}" name="cantidades[${item.idItem}]" min="1"/>
+                            <input type="number" th:value="${item.cantidad}" th:name="'cantidades_' + ${item.idItem}" min="1"/>
                         </td>
                         <td th:text="${item.producto.precio}"></td>
                         <td th:text="${item.producto.precio * item.cantidad}"></td>
@@ -38,6 +36,7 @@
             </table>
             <button class="btn btn-primary" type="submit">Actualizar</button>
         </form>
+
         
         <h3>Total: <span th:text="${total}"></span></h3>
     </div>

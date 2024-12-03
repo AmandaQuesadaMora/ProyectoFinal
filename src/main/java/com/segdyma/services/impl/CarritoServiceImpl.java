@@ -41,7 +41,8 @@ public class CarritoServiceImpl implements CarritoService {
             var item = carritoItemsDao.findById(entry.getKey()).orElse(null);
             if (item != null) {
                 item.setCantidad(entry.getValue());
-                carritoItemsDao.save(item); // Guardar el cambio
+                carritoItemsDao.save(item);  // Guardar el cambio
+                System.out.println("CarritoItem actualizado: " + item.getIdItem() + " con cantidad: " + item.getCantidad());
             }
         }
     }
