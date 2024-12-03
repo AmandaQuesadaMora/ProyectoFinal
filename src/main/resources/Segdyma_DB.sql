@@ -136,3 +136,10 @@ CREATE TABLE ruta (
 )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
+
+CREATE TABLE carrito_item (
+    id_item BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id_producto INT,
+    cantidad INT NOT NULL,
+    CONSTRAINT fk_producto FOREIGN KEY (id_producto) REFERENCES producto (id_producto)
+);
