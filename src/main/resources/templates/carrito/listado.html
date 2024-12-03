@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/plantilla :: head}">
+    <title>Carrito de Compras</title>
+</head>
+<body>
+<header th:replace="~{layout/plantilla :: header}"></header>
+<section>
+    <div class="container">
+        <h1>Carrito de Compras</h1>
+        
+        <!-- Formulario de actualización -->
+        <form th:action="@{/carrito/actualizar}" method="post">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Subtotal</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    <tr th:each="item : ${carrito}">
+                        <td th:text="${item.producto.descripcion}"></td>
+                        <td>
+                            <input type="number" th:value="${item.cantidad}" name="cantidades[${item.idItem}]" min="1"/>
+                        </td>
+                        <td th:text="${item.producto.precio}"></td>
+                        <td th:text="${item.producto.precio * item.cantidad}"></td>
+                        <td>
+                            <a th:href="@{/carrito/eliminar/{idItem}(idItem=${item.idItem})}" class="btn btn-danger">Eliminar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-primary" type="submit">Actualizar</button>
+        </form>
+        
+        <h3>Total: <span th:text="${total}"></span></h3>
+    </div>
+</section>
+<footer th:replace="~{layout/plantilla :: footer}"></footer>
+</body>
+</html>

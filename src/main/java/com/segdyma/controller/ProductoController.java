@@ -24,16 +24,17 @@ public class ProductoController {
     private CategoriaService categoriaService;
     
     @GetMapping("/listado")
-    public String listado(Model model){
-        var lista=productoService.getProductos(false);
+    public String listado(Model model) {
+        var lista = productoService.getProductos(false);
         model.addAttribute("productos", lista);
         model.addAttribute("totalProductos", lista.size());
 
-        var categorias=categoriaService.getCategorias(true);
+        var categorias = categoriaService.getCategorias(true);
         model.addAttribute("categorias", categorias);
 
         return "/producto/listado";
-    }  
+    }
+
         @Autowired
     private FirebaseStorageServiceImpl firebaseStorageService;
     
