@@ -40,6 +40,12 @@
         
         <h3>Total: <span th:text="${total}"></span></h3>
     </div>
+    <a href="cotizacion.html"></a>
+    
+    <!-- Formulario para generar cotización -->
+    <form action="/cotizacion/generar" method="post">
+        <button class="btn btn-success" type="submit">Generar Cotización</button>
+    </form>
 </section>
 <footer th:replace="~{layout/plantilla :: footer}"></footer>
 </body>

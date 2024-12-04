@@ -68,7 +68,4 @@ public class CarritoController {
         // Redirigir al listado de carrito con los valores actualizados
         return "/carrito/listado";
     }
-
-
-
 }

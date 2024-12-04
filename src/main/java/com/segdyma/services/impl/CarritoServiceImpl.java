@@ -59,4 +59,24 @@ public class CarritoServiceImpl implements CarritoService {
                 .mapToDouble(item -> item.getProducto().getPrecio() * item.getCantidad())
                 .sum();
     }
+  
+    @Override
+    public double calcularSubtotal() {
+        double subtotal = 0.0;
+        List<CarritoItem> carritoItems = carritoItemsDao.findAll(); // Obtener todos los items del carrito
+
+        for (CarritoItem item : carritoItems) {
+            subtotal += item.getProducto().getPrecio() * item.getCantidad(); // Sumar el precio * cantidad de cada producto
+        }
+        return subtotal; // Retornar el subtotal
+    }
+
+    @Override
+    public double calcularImpuestos() {
+        double subtotal = calcularSubtotal();
+        double impuestos = subtotal * 0.13; // Ejemplo: impuestos del 13%
+        return impuestos;
+    }
+    
 }
+    

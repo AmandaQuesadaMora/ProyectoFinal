@@ -4,6 +4,7 @@
  */
 package com.segdyma.services.impl;
 
+import com.segdyma.dao.CarritoItemsDao;
 import com.segdyma.dao.CategoriaDao;
 import com.segdyma.domain.Categoria;
 import com.segdyma.services.CategoriaService;
@@ -17,6 +18,10 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Autowired
     private CategoriaDao categoriaDao;
+    
+    @Autowired
+    private CarritoItemsDao carritoItemsDao;
+    
 
     @Override
     @Transactional(readOnly = true)
@@ -46,4 +51,18 @@ public class CategoriaServiceImpl implements CategoriaService {
     public void delete(Categoria categoria) {
         categoriaDao.delete(categoria);
     }
+    
+    
+    public double calcularSubtotal() {
+        return carritoItemsDao.findAll().stream()
+                .mapToDouble(item -> item.getProducto().getPrecio() * item.getCantidad())
+                .sum();
+    }
+
+    
+    public double calcularImpuestos() {
+        double subtotal = calcularSubtotal();
+        return subtotal * 0.13; // Suponiendo un 13% de impuestos.
+    }
+    
 }

@@ -11,4 +11,6 @@ public interface CarritoService {
     void actualizarCarrito(Map<Long, Integer> cantidades);
     List<CarritoItem> obtenerCarrito();
     double calcularTotal();
+    double calcularSubtotal(); 
+    double calcularImpuestos();
 }
