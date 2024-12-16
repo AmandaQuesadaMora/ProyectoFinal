@@ -20,4 +20,6 @@ public List<Producto> getProductos (boolean activos);
     
     // Se elimina el producto que tiene el id pasado por parámetro
     public void delete(Producto producto);
+    
+    List<Producto> getProductosPorCategoria(Long idCategoria);
 }

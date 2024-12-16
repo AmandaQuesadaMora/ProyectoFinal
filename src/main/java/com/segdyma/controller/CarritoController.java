@@ -1,4 +1,3 @@
-
 package com.segdyma.controller;
 
 import com.segdyma.services.CarritoService;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/carrito")
 public class CarritoController {
 
- @Autowired
+    @Autowired
     private CarritoService carritoService;
 
     @GetMapping
@@ -39,6 +38,7 @@ public class CarritoController {
         carritoService.eliminarProducto(idItem);
         return "redirect:/carrito";
     }
+
     @PostMapping("/actualizar")
     public String actualizarCarrito(@RequestParam Map<String, String> cantidades, Model model) {
         // Imprimir las cantidades recibidas
@@ -68,4 +68,32 @@ public class CarritoController {
         // Redirigir al listado de carrito con los valores actualizados
         return "/carrito/listado";
     }
+
+    // Método para mostrar la vista de pago
+   @GetMapping("/pago")
+    public String mostrarPago(Model model) {
+       
+        var carrito = carritoService.obtenerCarrito();
+        model.addAttribute("carrito", carrito);
+        model.addAttribute("total", carritoService.calcularTotal());
+        
+        return "carrito/pago";  // Asegúrate de que el archivo .html está en templates/carrito
+    }
+    
+    @PostMapping("/realizarCompra")
+    public String realizarCompra(Model model) {
+        // Lógica para procesar el pago (simulada aquí)
+        // Este sería el proceso real de pago (como con una API de pago)
+
+        // Agregar mensajes para mostrar en la vista
+
+        model.addAttribute("Se está procesando el pago...", "¡Su pago se ha realizado con éxito!");
+
+        // Después de mostrar las alertas, redirige a la página principal (o donde desees)
+        return "redirect:/menu"; // Redirige a la página principal
+    }
+
+    
+    
+
 }

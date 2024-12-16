@@ -46,4 +46,10 @@ public class ProductoServiceImpl implements ProductoService {
     public void delete(Producto producto) {
         productoDao.delete(producto);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Producto> getProductosPorCategoria(Long idCategoria) {
+        return productoDao.findByCategoria_IdCategoria(idCategoria);
+    }
 }

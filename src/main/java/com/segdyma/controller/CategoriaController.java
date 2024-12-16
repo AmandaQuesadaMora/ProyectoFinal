@@ -2,58 +2,44 @@ package com.segdyma.controller;
 
 import com.segdyma.domain.Categoria;
 import com.segdyma.services.CategoriaService;
-import com.segdyma.services.impl.FirebaseStorageServiceImpl;
+import com.segdyma.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/categoria")
 public class CategoriaController {
-    
+
     @Autowired
     private CategoriaService categoriaService;
+
+    @Autowired
+    private ProductoService productoService;
+
+    @GetMapping("/{idCategoria}/productos")
+    public String verProductosPorCategoria(@PathVariable Long idCategoria, Model model) {
+        // Obtén la lista de productos por categoría
+        var productos = productoService.getProductosPorCategoria(idCategoria);
+
+        // Agrega los productos al modelo
+        model.addAttribute("productos", productos);
+
+        // Agrega la categoría actual al modelo (opcional)
+        var categoria = categoriaService.getCategoriaPorId(idCategoria);
+        model.addAttribute("categoria", categoria);
+
+        return "categoria/productos";
+    }
     
     @GetMapping("/listado")
-    public String listado(Model model){
-        var lista=categoriaService.getCategorias(false);
-        model.addAttribute("categorias", lista);
-        model.addAttribute("totalCategorias", lista.size());
-        return "/categoria/listado";
-    }  
-        @Autowired
-    private FirebaseStorageServiceImpl firebaseStorageService;
-    
-    @PostMapping("/guardar")
-    public String categoriaGuardar(Categoria categoria,
-            @RequestParam("imagenFile") MultipartFile imagenFile) {        
-        if (!imagenFile.isEmpty()) {
-            categoriaService.save(categoria);
-            categoria.setRutaImagen(
-                    firebaseStorageService.cargaImagen(
-                            imagenFile, 
-                            "categoria", 
-                            categoria.getIdCategoria()));
-        }
-        categoriaService.save(categoria);
-        return "redirect:/categoria/listado";
+    public String listado(Model model) {
+        var categorias = categoriaService.getCategorias(true);
+        model.addAttribute("categorias", categorias);
+        return "categoria/listado"; 
     }
 
-    @GetMapping("/eliminar/{idCategoria}")
-    public String categoriaEliminar(Categoria categoria) {
-        categoriaService.delete(categoria);
-        return "redirect:/categoria/listado";
-    }
-
-    @GetMapping("/modificar/{idCategoria}")
-    public String categoriaModificar(Categoria categoria, Model model) {
-        categoria = categoriaService.getCategoria(categoria);
-        model.addAttribute("categoria", categoria);
-        return "/categoria/modifica";
-    }
 }

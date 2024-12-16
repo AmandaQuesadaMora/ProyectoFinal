@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{layout/plantilla :: head}">
+        <title>Información de Pago</title>
+    </head>
+    <body class="bg-body-tertiary">
+        <div class="container">
+            <main>
+                <div class="py-5 text-center">
+                    <h2>Formulario de Pago</h2>
+                    <p class="lead">A continuación, complete los detalles para realizar su pago.</p>
+                </div>
+                <!-- Formulario de pago -->
+                <form th:action="@{/carrito/realizarCompra}" method="post">
+                    <div class="row g-5">
+                        <div class="col-md-5 col-lg-4 order-md-last">
+                            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-primary">Tu carrito</span>
+                                <span class="badge bg-primary rounded-pill" th:text="${carrito.size()}">3</span>
+                            </h4>
+                            <ul class="list-group mb-3">
+                                <!-- Iterar sobre los productos en el carrito -->
+                                <li class="list-group-item d-flex justify-content-between lh-sm" th:each="item : ${carrito}">
+                                    <div>
+                                        <h6 class="my-0" th:text="${item.producto.descripcion}"></h6>
+                                        <small class="text-body-secondary">Descripción breve</small>
+                                    </div>
+                                    <span class="text-body-secondary" th:text="${item.producto.precio * item.cantidad}"></span>
+                                </li>
+                                <!-- Total -->
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Total (USD)</span>
+                                    <strong th:text="${total}">$20</strong>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="col-md-7 col-lg-8">
+                            <h4 class="mb-3">Dirección de facturación</h4>
+                            <div class="row g-3">
+                                <div class="col-sm-6">
+                                    <label for="firstName" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="firstName" placeholder="Nombre" required="required"
+                                           oninvalid="this.setCustomValidity('Por favor, ingrese su nombre')" 
+                                           oninput="this.setCustomValidity('')"/>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label for="lastName" class="form-label">Apellidos</label>
+                                    <input type="text" class="form-control" id="lastName" placeholder="Apellidos" required="required"
+                                           oninvalid="this.setCustomValidity('Por favor, ingrese sus apellidos')" 
+                                           oninput="this.setCustomValidity('')"/>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="email" class="form-label">Correo</label>
+                                    <input type="email" class="form-control" id="email" placeholder="you@example.com" required="required"
+                                           oninvalid="this.setCustomValidity('Por favor, ingrese un correo electrónico válido')" 
+                                           oninput="this.setCustomValidity('')"/>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="address" class="form-label">Dirección</label>
+                                    <input type="text" class="form-control" id="address" placeholder="1234 Main St" required="required"
+                                           oninvalid="this.setCustomValidity('Por favor, ingrese su dirección')" 
+                                           oninput="this.setCustomValidity('')"/>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="address2" class="form-label">Dirección 2 (Optional)</label>
+                                    <input type="text" class="form-control" id="address2" placeholder="Apartment or suite"/>
+                                </div>
+
+                                <div class="col-md-5">
+                                    <label for="country" class="form-label">País</label>
+                                    <select class="form-select" id="country" required="required"
+                                            oninvalid="this.setCustomValidity('Por favor, seleccione su país')" 
+                                            oninput="this.setCustomValidity('')">
+                                        <option value="">Elige...</option>
+                                        <option>Costa Rica</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="state" class="form-label">Provincia</label>
+                                    <select class="form-select" id="state" required="required"
+                                            oninvalid="this.setCustomValidity('Por favor, seleccione su Provincia')" 
+                                            oninput="this.setCustomValidity('')">
+                                        <option value="">Elige...</option>
+                                        <option>San José</option>
+                                        <option>Alajuela</option>
+                                        <option>Cartago</option>
+                                        <option>Heredia</option>
+                                        <option>Guanacaste</option>
+                                        <option>Puntarenas</option>
+                                        <option>Limon</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="zip" class="form-label">Código Postal</label>
+                                    <input type="text" class="form-control" id="zip" placeholder="Código Postal" required="required" 
+                                           pattern="^\d{5}$"
+                                           oninvalid="this.setCustomValidity('Por favor, ingrese un código postal válido (5 dígitos)')" 
+                                           oninput="this.setCustomValidity('')"/>
+                                </div>
+                            </div>
+
+                            <hr class="my-4"/>
+
+                            <h4 class="mb-3">Método de Pago</h4>
+
+                            <div class="my-3">
+                                <div class="form-check">
+                                    <input id="credit" name="paymentMethod" type="radio" class="form-check-input" onclick="togglePaymentFields('credit')" />
+                                    <label class="form-check-label" for="credit">Tarjeta de crédito</label>
+                                </div>
+                                <div class="form-check">
+                                    <input id="debit" name="paymentMethod" type="radio" class="form-check-input" onclick="togglePaymentFields('debit')" />
+                                    <label class="form-check-label" for="debit">Tarjeta de débito</label>
+                                </div>
+                                <div class="form-check">
+                                    <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" onclick="togglePaymentFields('paypal')" />
+                                    <label class="form-check-label" for="paypal">PayPal</label>
+                                </div>
+                            </div>
+
+                            <!-- Campos de Tarjeta de Crédito y Débito (inicialmente ocultos) -->
+                            <div id="creditFields" class="payment-method-fields" style="display: none;">
+                                <div class="row gy-3">
+                                    <div class="col-md-6">
+                                        <label for="cc-name" class="form-label">Nombre en la tarjeta</label>
+                                        <input type="text" class="form-control" id="cc-name" placeholder="Nombre en la tarjeta" required="required" />
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="cc-number" class="form-label">Número de tarjeta</label>
+                                        <input type="text" class="form-control" id="cc-number" placeholder="Número de tarjeta" required="required" />
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label for="cc-expiration" class="form-label">Fecha de vencimiento</label>
+                                        <input type="text" class="form-control" id="cc-expiration" placeholder="MM/AA" required="required" />
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label for="cc-cvv" class="form-label">CVV</label>
+                                        <input type="text" class="form-control" id="cc-cvv" placeholder="CVV" required="required" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Campos de PayPal (inicialmente ocultos) -->
+                            <div id="paypalFields" class="payment-method-fields" style="display: none;">
+                                <div class="row gy-3">
+                                    <div class="col-12">
+                                        <label for="paypal-email" class="form-label">Correo electrónico de PayPal</label>
+                                        <input type="email" class="form-control" id="paypal-email" placeholder="Correo de PayPal" required="required" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <script>
+                                // Función que muestra/oculta los campos dependiendo del método de pago seleccionado
+                                function togglePaymentFields(paymentMethod) {
+                                    // Ocultar todos los campos de pago
+                                    document.getElementById('creditFields').style.display = 'none';
+                                    document.getElementById('paypalFields').style.display = 'none';
+
+                                    // Mostrar los campos correspondientes
+                                    if (paymentMethod === 'credit' || paymentMethod === 'debit') {
+                                        document.getElementById('creditFields').style.display = 'block';
+                                    } else if (paymentMethod === 'paypal') {
+                                        document.getElementById('paypalFields').style.display = 'block';
+                                    }
+                                }
+                            </script>
+                        </div>
+                    </div>
+
+                    <hr class="my-4"/>
+
+                    <button class="w-100 btn btn-primary btn-lg" type="submit" onclick="confirmarCompra()">Confirmar Compra</button>
+                </form>
+            </main>
+        </div>
+
+        <footer th:replace="~{layout/plantilla :: footer}"></footer>
+
+    </body>
+
+</html>

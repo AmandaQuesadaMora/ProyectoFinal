@@ -1,52 +1,60 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout/plantilla :: head}">
-    <title>Carrito de Compras</title>
-</head>
-<body>
-<header th:replace="~{layout/plantilla :: header}"></header>
-<section>
-    <div class="container">
-        <h1>Carrito de Compras</h1>
+    <head th:replace="~{layout/plantilla :: head}">
+        <title>Carrito de Compras</title>
+    </head>
+    <body>
+        <header th:replace="~{layout/plantilla :: header}"></header>
+        <section>
+            <div class="container">
+                <h1>Carrito de Compras</h1>
 
-        <form th:action="@{/carrito/actualizar}" method="post">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Precio</th>
-                        <th>Subtotal</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="item : ${carrito}">
-                        <td th:text="${item.producto.descripcion}"></td>
-                        <td>
-                            <input type="number" th:value="${item.cantidad}" th:name="'cantidades_' + ${item.idItem}" min="1"/>
-                        </td>
-                        <td th:text="${item.producto.precio}"></td>
-                        <td th:text="${item.producto.precio * item.cantidad}"></td>
-                        <td>
-                            <a th:href="@{/carrito/eliminar/{idItem}(idItem=${item.idItem})}" class="btn btn-danger">Eliminar</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <button class="btn btn-primary" type="submit">Actualizar</button>
-        </form>
+                <form th:action="@{/carrito/actualizar}" method="post">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>Subtotal</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="item : ${carrito}">
+                                <td th:text="${item.producto.descripcion}"></td>
+                                <td>
+                                    <input type="number" th:value="${item.cantidad}" th:name="'cantidades_' + ${item.idItem}" min="1"/>
+                                </td>
+                                <td th:text="${item.producto.precio}"></td>
+                                <td th:text="${item.producto.precio * item.cantidad}"></td>
+                                <td>
+                                    <a th:href="@{/carrito/eliminar/{idItem}(idItem=${item.idItem})}" class="btn btn-danger">Eliminar</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-primary" type="submit">Actualizar</button>
+                </form>
+                <form method="get" 
+                      th:action="@{/carrito/pago}" 
+                      class="was-validated"
+                      enctype="multipart/form-data">
+                    <button class="btn btn-success" type="submit">Comprar</button>
+                </form>
+                <h3>Total: <span th:text="${total}"></span></h3>
+            </div>
+            <a href="cotizacion.html"></a>
 
-        
-        <h3>Total: <span th:text="${total}"></span></h3>
-    </div>
-    <a href="cotizacion.html"></a>
-    
-    <!-- Formulario para generar cotización -->
-    <form action="/cotizacion/generar" method="post">
-        <button class="btn btn-success" type="submit">Generar Cotización</button>
-    </form>
-</section>
-<footer th:replace="~{layout/plantilla :: footer}"></footer>
-</body>
+            <!-- Formulario para generar cotización -->
+            <form action="/cotizacion/generar" method="post">
+
+                <button class="btn btn-success" type="submit">Generar Cotización</button>
+            </form>
+            <div class="d-flex justify-content-start mt-4">
+                <a class="btn btn-primary" th:href="@{/menu}">[[#{accion.regresar}]]</a>
+            </div>
+        </section>
+        <footer th:replace="~{layout/plantilla :: footer}"></footer>
+    </body>
 </html>
