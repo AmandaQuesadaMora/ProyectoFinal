@@ -1,8 +1,18 @@
 package com.segdyma.controller;
 
+import com.segdyma.domain.CarritoItem;
 import com.segdyma.services.CarritoService;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -80,20 +90,74 @@ public class CarritoController {
         return "carrito/pago";  // Asegúrate de que el archivo .html está en templates/carrito
     }
     
-    @PostMapping("/realizarCompra")
-    public String realizarCompra(Model model) {
-        // Lógica para procesar el pago (simulada aquí)
-        // Este sería el proceso real de pago (como con una API de pago)
+     @PostMapping("/realizarCompra")
+    public String confirmarCompra(Model model) {
+        
+        // Generar datos de factura simulados
+        var carrito = carritoService.obtenerCarrito();
+        double total = carritoService.calcularTotal();
 
-        // Agregar mensajes para mostrar en la vista
+        // Generar un número de guía aleatorio
+        Random random = new Random();
+        int numeroGuia = 100000 + random.nextInt(900000);
 
-        model.addAttribute("Se está procesando el pago...", "¡Su pago se ha realizado con éxito!");
+        // Estimar tiempo de entrega (2-5 días hábiles simulados)
+        int tiempoEntrega = 2 + random.nextInt(4);
 
-        // Después de mostrar las alertas, redirige a la página principal (o donde desees)
-        return "redirect:/menu"; // Redirige a la página principal
+        // Agregar atributos al modelo
+        model.addAttribute("carrito", carrito);
+        model.addAttribute("total", total);
+        model.addAttribute("numeroGuia", numeroGuia);
+        model.addAttribute("tiempoEntrega", tiempoEntrega);
+
+        return "factura/confirmacion";
+    }
+    
+    @PostMapping("/generar-factura")
+public void generarFactura(HttpServletResponse response) throws IOException {
+    // Obtener los productos del carrito
+    List<CarritoItem> carrito = carritoService.obtenerCarrito();
+    double subtotal = carritoService.calcularSubtotal();
+    double impuestos = carritoService.calcularImpuestos();
+    double total = carritoService.calcularTotal();
+
+    // Crear el documento PDF
+    PDDocument documento = new PDDocument();
+    PDPage pagina = new PDPage(PDRectangle.A4);
+    documento.addPage(pagina);
+
+    PDPageContentStream contenido = new PDPageContentStream(documento, pagina);
+    contenido.beginText();
+    contenido.setFont(PDType1Font.HELVETICA, 14);
+    contenido.newLineAtOffset(25, 750);
+
+    // Información de la factura
+    contenido.showText("Factura de Compra");
+    contenido.newLineAtOffset(0, -20);
+    contenido.showText("Subtotal: " + subtotal);
+    contenido.newLineAtOffset(0, -20);
+    contenido.showText("Impuestos (13%): " + impuestos);
+    contenido.newLineAtOffset(0, -20);
+    contenido.showText("Total: " + total);
+
+    // Agregar los productos del carrito
+    for (CarritoItem item : carrito) {
+        contenido.newLineAtOffset(0, -20);
+        contenido.showText(item.getProducto().getDescripcion() + " - " + 
+                item.getCantidad() + " x " + 
+                item.getProducto().getPrecio() + " = " + 
+                (item.getProducto().getPrecio() * item.getCantidad()));
     }
 
-    
-    
+    contenido.endText();
+    contenido.close();
 
+    // Configurar la respuesta HTTP para descargar el PDF
+    response.setContentType("application/pdf");
+    response.setHeader("Content-Disposition", "attachment; filename=factura.pdf");
+
+    // Escribir el PDF al flujo de salida
+    documento.save(response.getOutputStream());
+    documento.close();
+}
 }

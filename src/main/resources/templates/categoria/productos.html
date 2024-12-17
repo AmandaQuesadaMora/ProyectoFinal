@@ -6,25 +6,37 @@
     </head>
     <body>
         <header th:replace="~{layout/plantilla :: header}"></header>
-        
+
         <section class="container my-4">
-            <h2 th:text="'Productos en ' + ${categoria.descripcion}"></h2>
-            <div class="row">
-                <div class="col-md-3" th:each="producto : ${productos}">
-                    <div class="card mb-3">
-                        <img th:src="@{${producto.rutaImagen}}" class="card-img-top" alt="Imagen del producto"/>
-                        <div class="card-body">
-                            <h5 class="card-title" th:text="${producto.descripcion}"></h5>
-                            <p class="card-text"><strong th:text="'Precio: $' + ${producto.precio}"></strong></p>
-                            <a th:href="@{/carrito/agregar/{idProducto}(idProducto=${producto.idProducto})}" class="btn btn-success">Agregar al carrito</a>
-                        
+            <h2 class="mb-4 text-center" th:text="'Productos en ' + ${categoria.descripcion}"></h2>
+            <div th:if="${productos != null and !productos.empty}">
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <!-- Iterar sobre los productos -->
+                    <div class="col" th:each="producto : ${productos}">
+                        <div class="card h-100 shadow-sm">
+                            <!-- Imagen del producto -->
+                            <img th:src="@{${producto.rutaImagen}}" class="card-img-top img-fluid" 
+                                 alt="Imagen del producto" style="height: 200px; object-fit: cover;"/>
+                            <div class="card-body text-center">
+                                <!-- Descripción y precio -->
+                                <h5 class="card-title">[[${producto.descripcion}]]</h5>
+                                <p class="fw-bold text-success mb-3">[[#{producto.precio}]]: $[[${producto.precio}]]</p>
+                                <!-- Botón Agregar al carrito -->
+                                <a th:href="@{/carrito/agregar/{idProducto}(idProducto=${producto.idProducto})}" 
+                                   class="btn btn-success w-100">
+                                    <i class="fas fa-cart-plus"></i> [[#{producto.agregarCarrito}]]
+                                </a>
+                            </div>
                         </div>
-                        
-                        
                     </div>
                 </div>
             </div>
-            <div class="d-flex justify-content-start mt-4">
+            <!-- Mensaje si no hay productos -->
+            <div th:if="${productos == null or productos.empty}" class="text-center mt-4">
+                <h4 class="text-danger">[[#{lista.vacia}]]</h4>
+            </div>
+            <!-- Botón para regresar -->
+            <div class="mt-4">
                 <a class="btn btn-primary" th:href="@{/categoria/listado}">[[#{accion.regresar}]]</a>
             </div>
         </section>
@@ -32,3 +44,4 @@
         <footer th:replace="~{layout/plantilla :: footer}"></footer>
     </body>
 </html>
+

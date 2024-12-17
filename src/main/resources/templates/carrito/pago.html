@@ -179,9 +179,21 @@
                     </div>
 
                     <hr class="my-4"/>
+                    <script src="/js/rutinas.js"></script>
+                    
+                    <button class="w-100 btn btn-primary btn-lg fas fa-check-circle me-2" 
+                            type="submit" 
+                            onclick="confirmarCompra(event)">
+                        Confirmar Compra
+                    </button>
 
-                    <button class="w-100 btn btn-primary btn-lg" type="submit" onclick="confirmarCompra()">Confirmar Compra</button>
+                    
+                    
+                    <div class="d-flex justify-content-start mt-4 fas fa-return">
+                        <a class="btn btn-primary" th:href="@{/carrito}">[[#{accion.regresar}]]</a>
+                    </div>
                 </form>
+                
             </main>
         </div>
 
